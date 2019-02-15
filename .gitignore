@@ -1,0 +1,19 @@
+*.DS_Store
+/vendor
+/node_modules
+.env
+outCsv
+.idea
+_ide_helper.php
+
+tests/_data/testCsv/*
+!tests/_data/malone
+tests/_data/malone/*
+!tests/_data/malone/data_files
+tests/_data/malone/data_files/original
+
+tests/_output/*
+tests/_support/*
+
+# VIM
+tags

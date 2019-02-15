@@ -1,0 +1,15 @@
+.bold{
+    font-weight: bold;
+}
+
+.pad-bottom-md{
+    padding-bottom: 2em;
+}
+
+.pad-md{
+    padding:2em 2em 2em 0;
+}
+
+.enabled-row{
+    background-color: #f9f9f9;
+}
