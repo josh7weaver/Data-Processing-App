@@ -3,7 +3,7 @@
 use DataStaging\Contracts\Adjuster;
 use DataStaging\Models\School;
 
-class CcckAdjuster implements Adjuster
+class rocketAdjuster implements Adjuster
 {
     /**
      * @var School
@@ -26,43 +26,43 @@ class CcckAdjuster implements Adjuster
      */
     public function adjust()
     {
-        if($this->school->getCode() != 'CCCK'){
+        if($this->school->getCode() != 'rocket'){
             return false; //no-op
         }
 
-        $courseFile = $this->school->getFullImportPath().'/ccck_courses.csv';
-        $enrollmentFile = $this->school->getFullImportPath().'/ccck_enrollments.csv';
-        $studentFile = $this->school->getFullImportPath().'/ccck_students.csv';
+        $courseFile = $this->school->getFullImportPath().'/rocket_courses.csv';
+        $enrollmentFile = $this->school->getFullImportPath().'/rocket_enrollments.csv';
+        $studentFile = $this->school->getFullImportPath().'/rocket_students.csv';
 
-        $courseFileOut = $this->school->getFullImportPath().'/ccck_courses_processed.csv';
-        $enrollmentFileOut = $this->school->getFullImportPath().'/ccck_enrollments_processed.csv';
-        $studentFileOut = $this->school->getFullImportPath().'/ccck_students_processed.csv';
+        $courseFileOut = $this->school->getFullImportPath().'/rocket_courses_processed.csv';
+        $enrollmentFileOut = $this->school->getFullImportPath().'/rocket_enrollments_processed.csv';
+        $studentFileOut = $this->school->getFullImportPath().'/rocket_students_processed.csv';
 
         /**
          * TRUNCATE TEMP TABLES
          */
-        \DB::affectingStatement("TRUNCATE ccck_courses");
-        \DB::affectingStatement("TRUNCATE ccck_enrollments");
-        \DB::affectingStatement("TRUNCATE ccck_students");
+        \DB::affectingStatement("TRUNCATE rocket_courses");
+        \DB::affectingStatement("TRUNCATE rocket_enrollments");
+        \DB::affectingStatement("TRUNCATE rocket_students");
 
         /**
          * IMPORT TO TEMP TABLES
          */
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_courses FROM '$courseFile' WITH DELIMITER ',' CSV HEADER\"");
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_enrollments FROM '$enrollmentFile' WITH DELIMITER ',' CSV HEADER\"");
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_students FROM '$studentFile' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_courses FROM '$courseFile' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_enrollments FROM '$enrollmentFile' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_students FROM '$studentFile' WITH DELIMITER ',' CSV HEADER\"");
 
         /**
          * DO ADJUSTMENTS
          */
 
         // update course code
-        $coursesCourseUpdated = \DB::affectingStatement("update ccck_courses set course = department || ' ' || course");
-        $enrollmentsCourseUpdated = \DB::affectingStatement("update ccck_enrollments set course_id = dept_id || ' ' || course_id");
+        $coursesCourseUpdated = \DB::affectingStatement("update rocket_courses set course = department || ' ' || course");
+        $enrollmentsCourseUpdated = \DB::affectingStatement("update rocket_enrollments set course_id = dept_id || ' ' || course_id");
 
         // update campus name
-        $coursesCampusUpdated = \DB::affectingStatement("update ccck_courses set campus = 'CENTRAL - ' || TRIM(campus)");
-        $enrollmentsCampusUpdated = \DB::affectingStatement("update ccck_enrollments set campus_id = 'CENTRAL - ' || TRIM(campus_id)");
+        $coursesCampusUpdated = \DB::affectingStatement("update rocket_courses set campus = 'CENTRAL - ' || TRIM(campus)");
+        $enrollmentsCampusUpdated = \DB::affectingStatement("update rocket_enrollments set campus_id = 'CENTRAL - ' || TRIM(campus_id)");
 
 
         //update term code
@@ -80,14 +80,14 @@ class CcckAdjuster implements Adjuster
                 section
             INTO TABLE cck_temp
             FROM
-                ccck_courses c
+                rocket_courses c
             WHERE
                 c.campus = 'CENTRAL - SPE'
             ");
 
         // update course term
         $coursesTermUpdated = \DB::affectingStatement("
-            UPDATE ccck_courses c
+            UPDATE rocket_courses c
             SET
               term = cck.new_term
             FROM cck_temp AS cck
@@ -102,7 +102,7 @@ class CcckAdjuster implements Adjuster
 
         // update enrollments term
         $enrollmentsTermUpdated = \DB::affectingStatement("
-            UPDATE ccck_enrollments e
+            UPDATE rocket_enrollments e
             SET
               term_id = cck.new_term
             FROM cck_temp AS cck
@@ -122,12 +122,12 @@ class CcckAdjuster implements Adjuster
         // step 1 - convert double space to single space in professors full name in course file so it will match whats
         // in student file after we move them in step 2
         $facultyWithDoubleSpace = \DB::affectingStatement("
-            update ccck_courses set professor = regexp_replace(professor, '\s+', ' ');
+            update rocket_courses set professor = regexp_replace(professor, '\s+', ' ');
         ");
 
         // step 2 - extract faculty from the course file into the student file for later inclusion in customer file
         $facultyAdded = \DB::affectingStatement("
-            insert into ccck_students (student_id, first_name, last_name, primary_email, year_in_school)
+            insert into rocket_students (student_id, first_name, last_name, primary_email, year_in_school)
             select
                     t.id as student_id,
                     split_part(t.full_name, ' ', 1) as first_name,
@@ -141,7 +141,7 @@ class CcckAdjuster implements Adjuster
                         c.professor_id AS email,
                         c.faculty_id   AS id
                     FROM
-                        ccck_courses c
+                        rocket_courses c
                     WHERE
                         (c.professor        IS NOT NULL
                             AND c.professor          != '')
@@ -155,19 +155,19 @@ class CcckAdjuster implements Adjuster
         /**
          * EXPORT TO NEW FILE
          */
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_courses TO '$courseFileOut' WITH DELIMITER ',' CSV HEADER\"");
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_enrollments TO '$enrollmentFileOut' WITH DELIMITER ',' CSV HEADER\"");
-        shell_exec("psql -U data_staging -d data_staging -c \"\\copy ccck_students TO '$studentFileOut' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_courses TO '$courseFileOut' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_enrollments TO '$enrollmentFileOut' WITH DELIMITER ',' CSV HEADER\"");
+        shell_exec("psql -U data_staging -d data_staging -c \"\\copy rocket_students TO '$studentFileOut' WITH DELIMITER ',' CSV HEADER\"");
 
         /**
          * Move original files
          */
-        \File::move($courseFile, $this->school->getFullImportPath().'/old/ccck_courses.csv');
-        \File::move($enrollmentFile, $this->school->getFullImportPath().'/old/ccck_enrollments.csv');
-        \File::move($studentFile, $this->school->getFullImportPath().'/old/ccck_students.csv');
+        \File::move($courseFile, $this->school->getFullImportPath().'/old/rocket_courses.csv');
+        \File::move($enrollmentFile, $this->school->getFullImportPath().'/old/rocket_enrollments.csv');
+        \File::move($studentFile, $this->school->getFullImportPath().'/old/rocket_students.csv');
 
 
-        \Log::info("------------\n\nADJUSTED CCCK term and course codes\n\n");
+        \Log::info("------------\n\nADJUSTED rocket term and course codes\n\n");
         \Log::info("Courses Updated with campus string: $coursesCampusUpdated\n");
         \Log::info("Enrollments Updated with campus string: $enrollmentsCampusUpdated\n");
         \Log::info("Courses Updated for SPE with new Terms: $coursesTermUpdated\n");

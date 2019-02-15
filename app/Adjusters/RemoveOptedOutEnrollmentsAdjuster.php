@@ -30,10 +30,7 @@ class RemoveOptedOutEnrollmentsAdjuster implements Adjuster
      * null value = all divisions
      */
     const SCHOOLS_TO_ADJUST = [
-        'ABS' => null,
-        'SAU' => 'SAU - GLOBAL',
-        'WPC' => null,
-        'JESSUP' => null,
+        'TEST' => 'TEST DIVISION',
     ];
 
     /**

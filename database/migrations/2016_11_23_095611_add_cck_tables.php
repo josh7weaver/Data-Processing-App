@@ -12,7 +12,7 @@ class AddCckTables extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('ccck_students', function(Blueprint $table)
+		Schema::create('rocket_students', function(Blueprint $table)
 		{
 			$table->text('student_id')->nullable();
 			$table->text('first_name')->nullable();
@@ -32,7 +32,7 @@ class AddCckTables extends Migration {
 			$table->text('ship_country')->nullable();
 		});
 
-		Schema::create('ccck_courses', function(Blueprint $table)
+		Schema::create('rocket_courses', function(Blueprint $table)
 		{
 			$table->text('campus')->nullable();
 			$table->text('term')->nullable();
@@ -54,7 +54,7 @@ class AddCckTables extends Migration {
 			$table->text('faculty_id')->nullable();
 		});
 
-		Schema::create('ccck_enrollments', function(Blueprint $table)
+		Schema::create('rocket_enrollments', function(Blueprint $table)
 		{
 			$table->text('student_id')->nullable();
 			$table->text('campus_id')->nullable();
@@ -72,9 +72,9 @@ class AddCckTables extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('ccck_students');
-		Schema::drop('ccck_courses');
-		Schema::drop('ccck_enrollments');
+		Schema::drop('rocket_students');
+		Schema::drop('rocket_courses');
+		Schema::drop('rocket_enrollments');
 	}
 
 }

@@ -10,7 +10,7 @@ use DataStaging\Adjusters\RemoveOptedOutEnrollmentsAdjuster;
 use DataStaging\Adjusters\SectionEnrollmentAdjuster;
 use DataStaging\Adjusters\StudentAddressAdjuster;
 use DataStaging\Adjusters\CustomerPreferenceAdjuster;
-use DataStaging\Adjusters\CcckAdjuster;
+use DataStaging\Adjusters\rocketAdjuster;
 use DataStaging\Adjusters\WarnerPrefManualAdjuster;
 use DataStaging\Models\School;
 use Illuminate\Filesystem\Filesystem;
@@ -99,7 +99,7 @@ class DataStager{
         // Import CSV files
         if($this->isEnabled('import'))
         {
-            (new CcckAdjuster($this->school))->adjust();
+            (new rocketAdjuster($this->school))->adjust();
 
             Log::info("------------\n\nIMPORTING ALL CSV's for {$this->school->getName()} ({$this->school->getKey()})\n");
             $schoolImporter = new SchoolImporter($this->school);
