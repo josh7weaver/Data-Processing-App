@@ -80,7 +80,7 @@ return [
 	|
 	*/
 
-	'username' => env('ELASTIC_USERNAME'),
+	'username' => env('USERNAME'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
 	|
 	*/
 
-	'password' => env('ELASTIC_PASSWORD'),
+	'password' => env('PASSWORD'),
 
 	/*
 	|--------------------------------------------------------------------------

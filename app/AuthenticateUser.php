@@ -31,7 +31,7 @@ class AuthenticateUser {
         $userData = $this->fetchUserData();
         $email = $userData->getEmail();
 
-        // if the users email is not a TOL email (@tolbookstores.com) email, ERROR
+        // if the users email is not a valid email, ERROR
         if( !$this->isEmailValid($email) ){
             return $listener->loginErrorInvalidEmail($email);
         }
@@ -62,11 +62,11 @@ class AuthenticateUser {
         //+id: "102464113359753568905"
         //+nickname: null
         //+name: "Joshua Weaver"
-        //+email: "jweaver@tolbookstores.com"
+        //+email: "jweaver@weaverwebtech.com"
         //+avatar: "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
         //+"user": array:11 [▼
         //    "id" => "102464113359753568905"
-        //    "email" => "jweaver@tolbookstores.com"
+        //    "email" => "jweaver@weaverwebtech.com"
         //    "verified_email" => true
         //    "name" => "Joshua Weaver"
         //    "given_name" => "Joshua"
@@ -75,7 +75,7 @@ class AuthenticateUser {
         //    "picture" => "https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg"
         //    "gender" => "other"
         //    "locale" => "en"
-        //    "hd" => "tolbookstores.com"
+        //    "hd" => "weaverwebtech.com"
         //  ]
         //}
         return $this->socialite->driver('google')->stateless()->user();
@@ -88,7 +88,7 @@ class AuthenticateUser {
     private function isEmailValid($email)
     {
 //        dd($this->getTld($email));
-        return 'tolbookstores.com' == $this->getTld($email);
+        return 'weaverwebtech.com' == $this->getTld($email);
     }
 
     private function getTld($email)
