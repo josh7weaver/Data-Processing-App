@@ -20,8 +20,7 @@ class GoogleAuthController extends Controller {
     {
         return redirect('/')
                 ->withMessage(
-                    "$email is not a valid Tree of Life email address. ".
-                    "Email must be @tolbookstores.com"
+                    "$email is not a valid Tree of Life email address. "
                 );
     }
 

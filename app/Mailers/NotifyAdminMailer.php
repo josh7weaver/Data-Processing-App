@@ -14,7 +14,7 @@ class NotifyAdminMailer implements BufferedLoggingMailer
 	{
 		$this->mailer = Mail::getSwiftMailer();
 		$this->message = $this->mailer->createMessage();
-		$this->from = 'admin@tolbookstores.com';
+		$this->from = 'admin@weaverwebtech.com';
         $this->fromName = 'Eva :: DataStaging System';
 		$this->to = is_null($email) ?  getenv('DATA_ERROR_EMAIL') : $email;
 		$this->subject = "Errors";

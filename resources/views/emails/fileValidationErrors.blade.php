@@ -9,7 +9,7 @@
 <h3>General Errors</h3>
 <ul>
     @foreach($generalErrors as $generalError)
-        <li><b>{{ $generalError->school->getName() }}</b> / A general error has occurred. The update process did not complete. Please contact softwaresupport@tolbookstores.com for a resolution.</li>
+        <li><b>{{ $generalError->school->getName() }}</b> / A general error has occurred. The update process did not complete. Please contact softwaresupport@weaverwebtech.com for a resolution.</li>
     @endforeach
 </ul>
 @endunless
