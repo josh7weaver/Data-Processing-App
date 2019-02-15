@@ -171,7 +171,7 @@ class BackupFiles
     private function setDestinationDir()
     {
         $this->destinationDir = getenv('BACKUP_DIR').
-            $this->school->getBackupPath() . '/' .  // taylor
+            $this->school->getBackupPath() . '/' .  // school name
             $this->now->format('Y') . '/' . // 2016
             $this->now->format('M') . '/' . // Jan
             $this->backupType . '/';        // school_data_files

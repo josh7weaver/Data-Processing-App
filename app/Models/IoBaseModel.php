@@ -90,10 +90,6 @@ abstract class IoBaseModel extends Eloquent implements ImportableAndExportableMo
 
     public function exportToFile(CanBeExported $school, $filename, $includeHeader = false)
     {
-        if($school->getCode() == "IWUNR" && $filename != 'customer'){
-            $modelCollection = $this->getIwuData($school);
-        }
-        else{
             // getting all the elements from the DB
             $modelCollection = $this->select($this->getColumnListingForFile())
                                     ->where('school_id', $school->getKey())

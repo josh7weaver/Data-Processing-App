@@ -92,14 +92,6 @@ class Course extends IoBaseModel implements HasDivisionName{
         return implode('|', array_flatten($this->getUniqueAttributes()));
     }
 
-    public function getIwuData(School $school)
-    {
-        return IwunrCourse::query()
-            ->where('school_id', $school->getKey())
-            ->select($this->getColumnListingForFile())
-            ->get();
-    }
-
     /**
      * Given a row from a Rafter format file, return the standard format for columns of the
      *   corresponding file for normal data files.

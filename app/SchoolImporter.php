@@ -74,23 +74,7 @@ class SchoolImporter{
 
     private function getFilesMatching($filename)
     {
-        $matchingFiles = preg_grep("/$filename/i", $this->files);
-
-        /*
-         * If you're reading this, there's been a terrible mistake. I blame Chris.
-         * This is an artifact from the IWU merge process when residential and NonRes were merged.
-         * Basically, we need to make sure that the Non res customer info ALWAYS gets imported before
-         * the Residential customer info so that the residential customer info is saved.
-         *
-         * Depends on the following naming convention:
-         *   Non Res: iwu_customer.csv
-         *   Residential: iwu_nr_customer.csv
-         */
-        if($this->school->getCode() == "IWU"){
-            Log::info("Reversed the order files are processed for IWU - Res cust file LAST", $matchingFiles);
-            return array_reverse($matchingFiles);
-        }
-        return $matchingFiles;
+        return preg_grep("/$filename/i", $this->files);
     }
 
     /**

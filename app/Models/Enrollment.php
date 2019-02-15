@@ -121,13 +121,6 @@ class Enrollment extends IoBaseModel{
             $this->getSection();
     }
 
-    public function getIwuData(School $school)
-    {
-        return IwunrEnrollment::query()
-            ->where('school_id', $school->getKey())
-            ->select($this->getColumnListingForFile())
-            ->get();
-    }
 
     /**
      * Given a row from a Rafter format file, return the standard format for columns of the

@@ -5,7 +5,6 @@ use DataStaging\Adjusters\AddBillingAcctAdjuster;
 use DataStaging\Adjusters\CreateTestDataAdjuster;
 use DataStaging\Adjusters\CustomerCopyPrefToNotesFieldAdjuster;
 use DataStaging\Adjusters\CustomerEmailOverwriterAdjuster;
-use DataStaging\Adjusters\IwuNrOldPrependAdjuster;
 use DataStaging\Adjusters\RemoveOptedOutEnrollmentsAdjuster;
 use DataStaging\Adjusters\SectionEnrollmentAdjuster;
 use DataStaging\Adjusters\StudentAddressAdjuster;
