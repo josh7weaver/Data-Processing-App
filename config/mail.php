@@ -54,7 +54,7 @@ return [
 	|
 	*/
 
-	'from' => ['address' => 'noreply@tolbookstores.com', 'name' => 'Tree of Life Books'],
+	'from' => ['address' => 'noreply@weaverwebtech.com', 'name' => 'Abe'],
 
 	/*
 	|--------------------------------------------------------------------------
