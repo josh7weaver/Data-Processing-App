@@ -8,7 +8,6 @@ use Log;
 
 /*
  * Adjust the enrollment numbers we're passing in the section files
- * to sidewalk. This is for Kelly and the textbook purchasing team.
  *
  * DEPENDANCY: MUST BE RUN AFTER THE CUSTOMER PREF ADJUSTER
  */

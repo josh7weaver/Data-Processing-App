@@ -99,7 +99,7 @@ class DataStager{
         // Import CSV files
         if($this->isEnabled('import'))
         {
-            (new rocketAdjuster($this->school))->adjust();
+            (new RocketAdjuster($this->school))->adjust();
 
             Log::info("------------\n\nIMPORTING ALL CSV's for {$this->school->getName()} ({$this->school->getKey()})\n");
             $schoolImporter = new SchoolImporter($this->school);
@@ -111,14 +111,14 @@ class DataStager{
         {
             // order matters
                 // BEFORE
-//                (new AddBillingAcctAdjuster($this->school))->adjust();
+               (new AddBillingAcctAdjuster($this->school))->adjust();
                 // AFTER
-//                (new SectionEnrollmentAdjuster($this->school))->adjust();
-//                (new CustomerCopyPrefToNotesFieldAdjuster($this->school))->adjust();
-//                (new RemoveOptedOutEnrollmentsAdjuster($this->school))->adjust();
+               (new SectionEnrollmentAdjuster($this->school))->adjust();
+               (new CustomerCopyPrefToNotesFieldAdjuster($this->school))->adjust();
+               (new RemoveOptedOutEnrollmentsAdjuster($this->school))->adjust();
 
             // order independant
-//                (new StudentAddressAdjuster($this->school))->adjust();
+               (new StudentAddressAdjuster($this->school))->adjust();
         }
 
 

@@ -9,9 +9,7 @@ use Log;
 
 /*
  * This class copys the preference from the COMMENT field to the NOTES field
- * as "opted in" to flag in the client for people using the register. That way when
- * they're checking students out they don't sell them books if they already have books
- * coming to them through the TBB program.
+ * as "opted in" to flag in the client for people using the register. 
  *
  * DEPENDANCY: MUST BE RUN AFTER THE CUSTOMER PREF ADJUSTER
  */
